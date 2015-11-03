@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace TS3ClientQueryFramework
 {
     public class TS3Client
     {
-        private TelnetConnection telnetConnection = null;
+        private TS3Connector ts3Connection = null;
         public TS3Notify Notifier = null;
 
         public int CurrentHandlerId { get; set; }
@@ -18,38 +19,26 @@ namespace TS3ClientQueryFramework
         /// </summary>
         public string Log { get; set; }
 
-        private string telnetString = null;
-        public string ReadTelnet(bool isNotify = false)
+        public string ReadAll()
         {
-            if (!isNotify && telnetString != null)
+            if (IsConnected())
             {
-                string t = telnetString;
-                telnetString = null;
-                return t;
+                return ts3Connection.ReadAll();
             }
-            string output = telnetConnection.Read();
-            if (isNotify && !string.IsNullOrEmpty(output) && !output.Contains("notify"))
-            {
-                telnetString = output;
-                return null;
-            }
-            return output;
+            return null;
         }
 
         /// <summary>
         /// Connect to TS3 Client Query
         /// </summary>
-        public bool Connect(string ip = "localhost", int port = 25639)
+        public bool Connect(string hostname = "localhost", int port = 25639)
         {
             if (!IsConnected())
             {
-                telnetConnection = new TelnetConnection(ip, port);
-                string output = ReadTelnet();
-                AddLog(output);
-                if (output.Contains("TS3 Client"))
+                ts3Connection = new TS3Connector(this, hostname, port);
+                if (ts3Connection.IsConnected())
                 {
                     Notifier = new TS3Notify(this);
-                    Use();
                     return true;
                 }
             }
@@ -63,10 +52,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                if (Notifier != null)
-                    Notifier.StopNotificationListener();
                 Notifier = null;
-                telnetConnection.Close();
+                ts3Connection.Close();
                 return true;
             }
             return false;
@@ -77,12 +64,12 @@ namespace TS3ClientQueryFramework
         /// </summary>
         public bool IsConnected()
         {
-            if (telnetConnection != null && telnetConnection.IsConnected)
+            if (ts3Connection != null && ts3Connection.IsConnected())
                 return true;
             return false;
         }
 
-        private void AddLog(string text)
+        public void AddLog(string text)
         {
             Log += "[" + DateTime.Now.ToString() + "] " + text + Environment.NewLine;
         }
@@ -94,10 +81,8 @@ namespace TS3ClientQueryFramework
         {
             if(IsConnected())
             {
-                telnetConnection.WriteLine("help");
-                string output = ReadTelnet();
-                AddLog(output);
-                return output;
+                ts3Connection.WriteLine("help");
+                return ReadAll();
             }
             return null;
         }
@@ -109,10 +94,8 @@ namespace TS3ClientQueryFramework
         {
             if(IsConnected())
             {
-                telnetConnection.WriteLine("whoami");
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine("whoami");
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), false);
                 return new TS3Models.Client() {
                     Result = result,
                     Channel = new TS3Models.Channel() {
@@ -131,10 +114,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine("clientlist");
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, true);
+                ts3Connection.WriteLine("clientlist");
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
                 List<TS3Models.Client> clients = new List<TS3Models.Client>();
                 foreach(Dictionary<string, string> res in result.ResultsList)
                 {
@@ -161,10 +142,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine("channellist");
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, true);
+                ts3Connection.WriteLine("channellist");
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
                 List<TS3Models.Channel> channels = new List<TS3Models.Channel>();
                 foreach (Dictionary<string, string> res in result.ResultsList)
                 {
@@ -194,10 +173,8 @@ namespace TS3ClientQueryFramework
                 string query = "use";
                 if (schandlerid != null)
                     query += string.Format(" schandlerid={0}", schandlerid);
-                telnetConnection.WriteLine(query);
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(query);
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), false);
                 if (result != null && result.ErrorId == 0)
                     CurrentHandlerId = Convert.ToInt32(result.GetFirstResult("schandlerid"));
                 return result;
@@ -212,10 +189,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine(string.Format("sendtextmessage targetmode={0} target={1} msg={2}", (int)targetmode, target, TS3Helper.EscapeString(msg)));
-                string output = ReadTelnet();
-                AddLog(output);
-                return TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(string.Format("sendtextmessage targetmode={0} target={1} msg={2}", (int)targetmode, target, TS3Helper.EscapeString(msg)));
+                return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
@@ -227,10 +202,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine(string.Format("clientpoke clid={0} msg={1}", clid, TS3Helper.EscapeString(msg)));
-                string output = ReadTelnet();
-                AddLog(output);
-                return TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(string.Format("clientpoke clid={0} msg={1}", clid, TS3Helper.EscapeString(msg)));
+                return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
@@ -253,10 +226,8 @@ namespace TS3ClientQueryFramework
                 string query = string.Format("clientmove {0} cid={1}", TS3Helper.StringSeperatedList("clid", clids.Cast<object>().ToList()), cid);
                 if(!string.IsNullOrEmpty(cpw))
                     query += string.Format(" cpw={2}", TS3Helper.EscapeString(cpw));
-                telnetConnection.WriteLine(query);
-                string output = ReadTelnet();
-                AddLog(output);
-                return TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
@@ -279,10 +250,8 @@ namespace TS3ClientQueryFramework
                 string query = string.Format("clientkick {0} reasonid={1}", TS3Helper.StringSeperatedList("clid", clids.Cast<object>().ToList()), (int)reasonid);
                 if (!string.IsNullOrEmpty(reasonmsg))
                     query += string.Format(" reasonmsg={2}", TS3Helper.EscapeString(reasonmsg));
-                telnetConnection.WriteLine(query);
-                string output = ReadTelnet();
-                AddLog(output);
-                return TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
@@ -307,10 +276,8 @@ namespace TS3ClientQueryFramework
                     query += string.Format(" time={1}", time);
                 if (string.IsNullOrEmpty(banreason))
                     query += string.Format(" banreason={2}", TS3Helper.EscapeString(banreason));
-                telnetConnection.WriteLine(query);
-                string output = ReadTelnet();
-                AddLog(output);
-                return TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
@@ -322,10 +289,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine(string.Format("clientnotifyregister schandlerid={0} event={1}", schandlerid, notification));
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(string.Format("clientnotifyregister schandlerid={0} event={1}", schandlerid, notification));
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), false);
                 if (result != null && result.ErrorId == 0)
                     Notifier.RegisterNotification(notification);
                 return result;
@@ -337,10 +302,8 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                telnetConnection.WriteLine(string.Format("clientnotifyunregister schandlerid={0} event={1}", schandlerid, notification));
-                string output = ReadTelnet();
-                AddLog(output);
-                TS3Models.Result result = TS3Helper.ParseResult(output, false);
+                ts3Connection.WriteLine(string.Format("clientnotifyunregister schandlerid={0} event={1}", schandlerid, notification));
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), false);
                 if (result != null && result.ErrorId == 0)
                     Notifier.UnregisterNotification(notification);
                 return result;

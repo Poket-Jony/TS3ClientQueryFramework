@@ -21,7 +21,8 @@ namespace TS3ClientQueryDemo
             
             if(ts3Client.Connect())
             {
-                ts3Client.Use(1);
+                if(ts3Client.CurrentHandlerId != 1)
+                    ts3Client.Use(1);
                 pnlPoke.Enabled = comboBoxClients.Enabled = txtBoxMessage.Enabled = txtBoxLog.Enabled = btnSendPoke.Enabled = true;
                 comboBoxClients.DataSource = ts3Client.GetClientList();
 
@@ -34,6 +35,9 @@ namespace TS3ClientQueryDemo
 
         public void Notifier_OnClientPoke(TS3Models.ClientPoke clientPoke)
         {
+            this.Invoke((MethodInvoker)delegate {
+                txtBoxLog.Text = ts3Client.Log;
+            });
             MessageBox.Show(string.Format("You receive a poke message from: {0}\n\n{1}", clientPoke.InvokerName, clientPoke.Msg));
         }
 
