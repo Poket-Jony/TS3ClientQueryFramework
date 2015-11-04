@@ -19,13 +19,21 @@ namespace TS3ClientQueryFramework
         /// </summary>
         public string Log { get; set; }
 
-        public string ReadAll()
+        private string ReadAll()
         {
             if (IsConnected())
             {
                 return ts3Connection.ReadAll();
             }
             return null;
+        }
+
+        /// <summary>
+        /// Clears the read buffer
+        /// </summary>
+        public bool ClearReadBuffer()
+        {
+            return ts3Connection.ClearOutput();
         }
 
         /// <summary>
@@ -185,12 +193,14 @@ namespace TS3ClientQueryFramework
         /// <summary>
         /// Sends a text message to a client, channel, server
         /// </summary>
-        public TS3Models.Result SendTextMessage(TS3Models.TextMessageTargetMode targetmode, int target, string msg)
+        public TS3Models.Result SendTextMessage(TS3Models.TextMessageTargetMode targetmode, int target, string msg, bool withoutResponse = false)
         {
             if (IsConnected())
             {
                 ts3Connection.WriteLine(string.Format("sendtextmessage targetmode={0} target={1} msg={2}", (int)targetmode, target, TS3Helper.EscapeString(msg)));
-                return TS3Helper.ParseResult(ReadAll(), false);
+                if(!withoutResponse)
+                    return TS3Helper.ParseResult(ReadAll(), false);
+                return null;
             }
             return null;
         }

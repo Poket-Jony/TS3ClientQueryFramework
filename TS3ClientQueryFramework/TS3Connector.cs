@@ -105,6 +105,16 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
+        public bool ClearOutput()
+        {
+            if(IsConnected())
+            {
+                outputString = string.Empty;
+                return true;
+            }
+            return false;
+        }
+
         public bool IsResponseThreadRunning()
         {
             return responseThread != null && responseThread.IsAlive ? true : false;
