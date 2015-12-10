@@ -308,6 +308,9 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
+        /// <summary>
+        /// Unregister client notification
+        /// </summary>
         public TS3Models.Result ClientNotifyUnregister(int schandlerid, TS3Models.Notifications notification)
         {
             if (IsConnected())
