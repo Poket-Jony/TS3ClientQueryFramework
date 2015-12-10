@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TS3ClientQueryFramework;
+using TS3ClientQueryFramework.TS3Models;
 
 namespace TS3ClientQueryDemo
 {
@@ -26,14 +27,14 @@ namespace TS3ClientQueryDemo
                 pnlPoke.Enabled = comboBoxClients.Enabled = txtBoxMessage.Enabled = txtBoxLog.Enabled = btnSendPoke.Enabled = true;
                 comboBoxClients.DataSource = ts3Client.GetClientList();
 
-                ts3Client.ClientNotifyRegister(ts3Client.CurrentHandlerId, TS3Models.Notifications.notifyclientpoke);
+                ts3Client.ClientNotifyRegister(ts3Client.CurrentHandlerId, Notifications.notifyclientpoke);
                 ts3Client.Notifier.OnClientPoke += Notifier_OnClientPoke;
 
                 txtBoxLog.Text = ts3Client.Log;
             }
         }
 
-        public void Notifier_OnClientPoke(TS3Models.ClientPoke clientPoke)
+        public void Notifier_OnClientPoke(ClientPoke clientPoke)
         {
             this.Invoke((MethodInvoker)delegate {
                 txtBoxLog.Text = ts3Client.Log;
@@ -45,7 +46,7 @@ namespace TS3ClientQueryDemo
         {
             if (ts3Client.IsConnected() && txtBoxMessage.Text != "")
             {
-                TS3Models.Result result = ts3Client.ClientPoke(((TS3Models.Client)comboBoxClients.SelectedItem).ClId, txtBoxMessage.Text);
+                Result result = ts3Client.ClientPoke(((Client)comboBoxClients.SelectedItem).ClId, txtBoxMessage.Text);
                 if (result != null)
                     MessageBox.Show(result.ResultString);
                 txtBoxLog.Text = ts3Client.Log;
