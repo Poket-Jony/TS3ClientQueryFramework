@@ -19,12 +19,12 @@ namespace TS3ClientQueryFramework
         private TS3Client ts3Client = null;
         private List<TS3Models.Notifications> registeredNotifications = new List<TS3Models.Notifications>();
 
-        public TS3Notify(TS3Client client)
+        internal TS3Notify(TS3Client client)
         {
             ts3Client = client;
         }
 
-        public bool RegisterNotification(TS3Models.Notifications notification)
+        internal bool RegisterNotification(TS3Models.Notifications notification)
         {
             if (!registeredNotifications.Contains(notification))
             {
@@ -34,7 +34,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public bool UnregisterNotification(TS3Models.Notifications notification)
+        internal bool UnregisterNotification(TS3Models.Notifications notification)
         {
             if (registeredNotifications.Contains(notification))
             {
@@ -44,7 +44,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public void ReceiveNotification(string notificationString)
+        internal void ReceiveNotification(string notificationString)
         {
             if (!string.IsNullOrEmpty(notificationString))
             {

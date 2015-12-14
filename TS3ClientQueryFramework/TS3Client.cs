@@ -10,9 +10,14 @@ namespace TS3ClientQueryFramework
     public class TS3Client
     {
         private TS3Connector ts3Connection = null;
-        public TS3Notify Notifier = null;
+        public TS3Notify Notifier { get; set; } = null;
 
-        public int CurrentHandlerId { get; set; }
+        public int CurrentHandlerId { get; set; } = 0;
+
+        public TS3Client()
+        {
+            Console.WriteLine(string.Format("Version: {0}", TS3Helper.GetVersion()));
+        }
 
         /// <summary>
         /// Contains all log messages

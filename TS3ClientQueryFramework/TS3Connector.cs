@@ -9,7 +9,7 @@ using System.IO;
 
 namespace TS3ClientQueryFramework
 {
-    public class TS3Connector
+    internal class TS3Connector
     {
         private const int SLEEP_READ_TO_END = 500; //Warte auf gesamten Content
         private TcpClient tcpClient = null;
@@ -21,19 +21,19 @@ namespace TS3ClientQueryFramework
         private string outputString = string.Empty;
         private bool cancelLoop = false;
 
-        public TS3Connector(TS3Client ts3Client, string hostname = "localhost", int port = 25639)
+        internal TS3Connector(TS3Client ts3Client, string hostname = "localhost", int port = 25639)
         {
             this.ts3Client = ts3Client;
 
             Connect(hostname, port);
         }
 
-        public bool IsConnected()
+        internal bool IsConnected()
         {
             return tcpClient != null && tcpClient.Connected ? true : false;
         }
 
-        public bool Connect(string hostname = "localhost", int port = 25639)
+        internal bool Connect(string hostname = "localhost", int port = 25639)
         {
             if (!IsConnected())
             {
@@ -60,7 +60,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public bool Close()
+        internal bool Close()
         {
             if(IsConnected())
             {
@@ -78,7 +78,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public bool WriteLine(string text)
+        internal bool WriteLine(string text)
         {
             if (IsConnected())
             {
@@ -90,7 +90,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public string ReadAll()
+        internal string ReadAll()
         {
             if (IsConnected())
             {
@@ -105,7 +105,7 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
-        public bool ClearOutput()
+        internal bool ClearOutput()
         {
             if(IsConnected())
             {
@@ -115,7 +115,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        public bool IsResponseThreadRunning()
+        internal bool IsResponseThreadRunning()
         {
             return responseThread != null && responseThread.IsAlive ? true : false;
         }
@@ -130,7 +130,7 @@ namespace TS3ClientQueryFramework
             return false;
         }
 
-        private void StartResponseLoop()
+        internal void StartResponseLoop()
         {
             Task.Run(async () =>
             {

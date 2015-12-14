@@ -7,12 +7,12 @@ using System.Text.RegularExpressions;
 
 namespace TS3ClientQueryFramework
 {
-    public class TS3Helper
+    internal class TS3Helper
     {
         private static Regex errorRegex = new Regex(@"error id=(\d) msg=(.+)");
         private static Regex paramRegex = new Regex(@"(.+)=(.+)");
 
-        public static TS3Models.Result ParseResult(string resultString, bool isMany)
+        internal static TS3Models.Result ParseResult(string resultString, bool isMany)
         {
             if (!string.IsNullOrEmpty(resultString))
             {
@@ -57,7 +57,7 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
-        public static string UnescapeString(string text)
+        internal static string UnescapeString(string text)
         {
             if (!string.IsNullOrEmpty(text))
             {
@@ -66,7 +66,7 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
-        public static string EscapeString(string text)
+        internal static string EscapeString(string text)
         {
             if (!string.IsNullOrEmpty(text))
             {
@@ -75,7 +75,7 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
-        public static string StringSeperatedList(string key, List<object> list)
+        internal static string StringSeperatedList(string key, List<object> list)
         {
             if(!string.IsNullOrEmpty(key) && list != null)
             {
@@ -87,6 +87,11 @@ namespace TS3ClientQueryFramework
                 return output.Remove(output.Length - 1);
             }
             return null;
+        }
+
+        internal static string GetVersion()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
     }
 }
