@@ -37,9 +37,16 @@ namespace TS3ClientQueryFramework
         {
             if (!IsConnected())
             {
-                tcpClient = new TcpClient(hostname, port);
-                if (!IsConnected())
-                    throw new Exception("Could not connect.");
+                try
+                {
+                    tcpClient = new TcpClient(hostname, port);
+                    if (!IsConnected())
+                        throw new Exception("Could not connect.");
+                }
+                catch
+                {
+                    return false;
+                }
 
                 networkStream = tcpClient.GetStream();
                 streamReader = new StreamReader(networkStream);
