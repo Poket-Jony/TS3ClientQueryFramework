@@ -58,7 +58,7 @@ namespace TS3ClientQueryFramework.TS3Models
                 clientAwayMessage = TS3Helper.UnescapeString(value);
             }
         }
-        public bool ClientFlagAvatar { get; set; }
+        public string ClientFlagAvatar { get; set; } //MD5 hash
         public bool ClientTalkPower { get; set; }
         public bool ClientTalkRequest { get; set; }
         private string clientTalkRequestMsg = null;

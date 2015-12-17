@@ -149,7 +149,7 @@ namespace TS3ClientQueryFramework
                                 ClientAway = Convert.ToBoolean(Convert.ToInt32(result.GetFirstResult("client_away"))),
                                 ClientAwayMessage = result.GetFirstResult("client_away_message"),
                                 ClientType = Convert.ToInt32(result.GetFirstResult("client_type")),
-                                ClientFlagAvatar = Convert.ToBoolean(Convert.ToInt32(result.GetFirstResult("client_flag_avatar"))),
+                                ClientFlagAvatar = result.GetFirstResult("client_flag_avatar"),
                                 ClientTalkPower = Convert.ToBoolean(Convert.ToInt32(result.GetFirstResult("client_talk_power"))),
                                 ClientTalkRequest = Convert.ToBoolean(Convert.ToInt32(result.GetFirstResult("client_talk_request"))),
                                 ClientTalkRequestMsg = result.GetFirstResult("client_talk_request_msg"),
