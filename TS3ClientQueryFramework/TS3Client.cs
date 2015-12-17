@@ -238,7 +238,7 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                string query = string.Format("clientmove {0} cid={1}", TS3Helper.StringSeperatedList("clid", clids.Cast<object>().ToList()), cid);
+                string query = string.Format("clientmove {0} cid={1}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()), cid);
                 if(!string.IsNullOrEmpty(cpw))
                     query += string.Format(" cpw={2}", TS3Helper.EscapeString(cpw));
                 ts3Connection.WriteLine(query);
@@ -262,7 +262,7 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                string query = string.Format("clientkick {0} reasonid={1}", TS3Helper.StringSeperatedList("clid", clids.Cast<object>().ToList()), (int)reasonid);
+                string query = string.Format("clientkick {0} reasonid={1}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()), (int)reasonid);
                 if (!string.IsNullOrEmpty(reasonmsg))
                     query += string.Format(" reasonmsg={2}", TS3Helper.EscapeString(reasonmsg));
                 ts3Connection.WriteLine(query);
@@ -286,7 +286,7 @@ namespace TS3ClientQueryFramework
         {
             if (IsConnected())
             {
-                string query = string.Format("banclient {0}", TS3Helper.StringSeperatedList("clid", clids.Cast<object>().ToList()));
+                string query = string.Format("banclient {0}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()));
                 if (time != null)
                     query += string.Format(" time={1}", time);
                 if (string.IsNullOrEmpty(banreason))

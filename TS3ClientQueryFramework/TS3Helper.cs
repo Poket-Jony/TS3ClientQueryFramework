@@ -27,34 +27,40 @@ namespace TS3ClientQueryFramework
                     resultString = errorRegex.Replace(resultString, "");
                 }
 
-                string[] manyResults;
-                if (isMany)
-                    manyResults = resultString.Split('|');
-                else
-                {
-                    if (resultString.Contains('|'))
-                        throw new Exception("Illegal separation found");
-                    manyResults = new string[] { resultString };
-                }
-
-                foreach (string mr in manyResults)
-                {
-                    Dictionary<string, string> resl = new Dictionary<string, string>();
-                    string[] paramSplit = mr.Split(' ');
-                    foreach (string pa in paramSplit)
-                    {
-                        Match paramMatch = paramRegex.Match(pa);
-                        if (paramMatch.Success)
-                        {
-                            resl.Add(paramMatch.Groups[1].Value, paramMatch.Groups[2].Value);
-                        }
-                    }
-                    result.ResultsList.Add(resl);
-                }
-
+                result.ResultsList = GetParamList(resultString, isMany);
                 return result;
             }
             return null;
+        }
+
+        private static List<Dictionary<string, string>> GetParamList(string input, bool isMany, char paramSplitter = ' ')
+        {
+            string[] manyResults;
+            if (isMany)
+                manyResults = input.Split('|');
+            else
+            {
+                if (input.Contains('|'))
+                    throw new Exception("Illegal separation found");
+                manyResults = new string[] { input };
+            }
+
+            List<Dictionary<string, string>> resultsList = new List<Dictionary<string, string>>();
+            foreach (string mr in manyResults)
+            {
+                Dictionary<string, string> resl = new Dictionary<string, string>();
+                string[] paramSplit = mr.Split(paramSplitter);
+                foreach (string pa in paramSplit)
+                {
+                    Match paramMatch = paramRegex.Match(pa);
+                    if (paramMatch.Success)
+                    {
+                        resl.Add(paramMatch.Groups[1].Value, paramMatch.Groups[2].Value);
+                    }
+                }
+                resultsList.Add(resl);
+            }
+            return resultsList;
         }
 
         internal static string UnescapeString(string text)
@@ -75,7 +81,7 @@ namespace TS3ClientQueryFramework
             return null;
         }
 
-        internal static string StringSeperatedList(string key, List<object> list)
+        internal static string GetSeperatedParamStringList(string key, List<object> list)
         {
             if(!string.IsNullOrEmpty(key) && list != null)
             {
@@ -85,6 +91,24 @@ namespace TS3ClientQueryFramework
                     output += string.Format("{0}={1}|", key, obj.ToString());
                 }
                 return output.Remove(output.Length - 1);
+            }
+            return null;
+        }
+
+        internal static Dictionary<string, string> GetSeperatedParamList(string list)
+        {
+            if (!string.IsNullOrEmpty(list))
+            {
+                return GetParamList(list, false, '|').First();
+            }
+            return null;
+        }
+
+        internal static List<string> GetSeperatedList(string list, char seperator = ',')
+        {
+            if (!string.IsNullOrEmpty(list))
+            {
+                return list.Split(seperator).ToList();
             }
             return null;
         }

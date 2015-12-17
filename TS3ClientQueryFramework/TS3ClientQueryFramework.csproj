@@ -43,8 +43,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TS3Connector.cs" />
     <Compile Include="TS3Helper.cs" />
+    <Compile Include="TS3Models\BadgeTypes.cs" />
     <Compile Include="TS3Models\Channel.cs" />
     <Compile Include="TS3Models\Client.cs" />
+    <Compile Include="TS3Models\ClientEnterView.cs" />
+    <Compile Include="TS3Models\ClientLeftView.cs" />
     <Compile Include="TS3Models\ClientPoke.cs" />
     <Compile Include="TS3Models\Codec.cs" />
     <Compile Include="TS3Models\CodecEncryptionMode.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="TS3Models\PermissionGroupTypes.cs" />
     <Compile Include="TS3Models\ReasonIdentifier.cs" />
     <Compile Include="TS3Models\Result.cs" />
+    <Compile Include="TS3Models\ServerGroup.cs" />
     <Compile Include="TS3Models\TextMessage.cs" />
     <Compile Include="TS3Models\TextMessageTargetMode.cs" />
     <Compile Include="TS3Models\TokenType.cs" />
