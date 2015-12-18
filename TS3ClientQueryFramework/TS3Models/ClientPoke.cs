@@ -10,9 +10,7 @@ namespace TS3ClientQueryFramework.TS3Models
     {
         public int ScHandlerId { get; set; }
         public string Msg { get; set; }
-        public int InvokerId { get; set; }
-        public string InvokerName { get; set; }
-        public string InvokerUId { get; set; }
+        public Client Invoker { get; set; }
         public Result Result { get; set; }
 
         public override string ToString()

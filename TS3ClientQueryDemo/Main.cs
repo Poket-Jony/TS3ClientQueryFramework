@@ -39,7 +39,7 @@ namespace TS3ClientQueryDemo
             this.Invoke((MethodInvoker)delegate {
                 txtBoxLog.Text = ts3Client.Log;
             });
-            MessageBox.Show(string.Format("You receive a poke message from: {0}\n\n{1}", clientPoke.InvokerName, clientPoke.Msg));
+            MessageBox.Show(string.Format("You receive a poke message from: {0}\n\n{1}", clientPoke.Invoker.ClientNickname, clientPoke.Msg));
         }
 
         private void btnSendPoke_Click(object sender, EventArgs e)

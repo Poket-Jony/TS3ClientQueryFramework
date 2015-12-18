@@ -43,7 +43,7 @@ namespace TS3ClientQueryFramework.TS3Models
         public bool ClientOutputHardware { get; set; }
         public string ClientMetaData { get; set; }
         public bool ClientIsRecording { get; set; }
-        public int ClientChannelGroupId { get; set; }
+        public ChannelGroup ClientChannelGroup { get; set; }
         public List<ServerGroup> ClientServerGroups { get; set; } = new List<ServerGroup>();
         public bool ClientAway { get; set; }
         private string clientAwayMessage = null;

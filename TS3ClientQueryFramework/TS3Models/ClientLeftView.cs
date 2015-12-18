@@ -11,10 +11,19 @@ namespace TS3ClientQueryFramework.TS3Models
         public int CfId { get; set; }
         public int CtId { get; set; }
         public int ReasonId { get; set; }
-        public int InvokerId { get; set; }
-        public string InvokerName{ get; set; }
-        public string InvokerUId { get; set; }
-        public string ReasonMsg { get; set; }
+        public Client Invoker { get; set; }
+        private string reasonMsg = null;
+        public string ReasonMsg
+        {
+            get
+            {
+                return reasonMsg;
+            }
+            set
+            {
+                reasonMsg = TS3Helper.UnescapeString(value);
+            }
+        }
         public int BanTime { get; set; }
         public int ClId { get; set; }
 
