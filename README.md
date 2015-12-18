@@ -53,4 +53,10 @@ Console.WriteLine(currentClient.ClId);
 - OnClientPoke()
 - OnClientEnterView()
 - OnClientLeftView()
+- OnClientMoved()
+- OnChannelMoved()
+- OnChannelEdited()
+- OnChannelCreated()
+- OnChannelDeleted()
+- OnServerEdited()
 - ...
