@@ -8,7 +8,7 @@ namespace TS3ClientQueryFramework.TS3Models
 {
     public class ServerEdited
     {
-        public int ReasonId { get; set; }
+        public ReasonIdentifier Reason { get; set; }
         public Client Invoker { get; set; }
         public VirtualServer VirtualServer { get; set; }
 

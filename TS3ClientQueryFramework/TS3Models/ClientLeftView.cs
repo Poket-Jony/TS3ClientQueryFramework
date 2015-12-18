@@ -10,7 +10,7 @@ namespace TS3ClientQueryFramework.TS3Models
     {
         public int CfId { get; set; }
         public int CtId { get; set; }
-        public int ReasonId { get; set; }
+        public ReasonIdentifier Reason { get; set; }
         public Client Invoker { get; set; }
         private string reasonMsg = null;
         public string ReasonMsg

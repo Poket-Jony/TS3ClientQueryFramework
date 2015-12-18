@@ -9,7 +9,7 @@ namespace TS3ClientQueryFramework.TS3Models
     public class ClientMoved
     {
         public Channel Channel { get; set; }
-        public int ReasonId { get; set; }
+        public ReasonIdentifier Reason { get; set; }
         public Client Invoker { get; set; }
         public List<Client> Clients { get; set; } = new List<Client>();
 

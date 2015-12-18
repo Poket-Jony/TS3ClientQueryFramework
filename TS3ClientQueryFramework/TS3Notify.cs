@@ -167,7 +167,7 @@ namespace TS3ClientQueryFramework
                             Result = result,
                             CfId = Convert.ToInt32(result.GetFirstResult("cfid")),
                             CtId = Convert.ToInt32(result.GetFirstResult("ctid")),
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Client = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("clid")),
@@ -215,7 +215,7 @@ namespace TS3ClientQueryFramework
                             Result = result,
                             CfId = Convert.ToInt32(result.GetFirstResult("cfid")),
                             CtId = Convert.ToInt32(result.GetFirstResult("ctid")),
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Invoker = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("invokerid")),
@@ -248,7 +248,7 @@ namespace TS3ClientQueryFramework
                             {
                                 CId = Convert.ToInt32(result.GetFirstResult("ctid"))
                             },
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Invoker = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("invokerid")),
@@ -266,7 +266,7 @@ namespace TS3ClientQueryFramework
                         OnChannelMoved(new TS3Models.ChannelMoved()
                         {
                             Result = result,
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Invoker = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("invokerid")),
@@ -286,7 +286,7 @@ namespace TS3ClientQueryFramework
                         OnChannelEdited(new TS3Models.ChannelEdited()
                         {
                             Result = result,
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Invoker = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("invokerid")),
@@ -381,7 +381,7 @@ namespace TS3ClientQueryFramework
                         OnServerEdited(new TS3Models.ServerEdited()
                         {
                             Result = result,
-                            ReasonId = Convert.ToInt32(result.GetFirstResult("reasonid")),
+                            Reason = (TS3Models.ReasonIdentifier)Convert.ToInt32(result.GetFirstResult("reasonid")),
                             Invoker = new TS3Models.Client()
                             {
                                 ClId = Convert.ToInt32(result.GetFirstResult("invokerid")),
