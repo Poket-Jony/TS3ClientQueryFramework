@@ -50,6 +50,7 @@
     <Compile Include="TS3Models\ChannelEdited.cs" />
     <Compile Include="TS3Models\ChannelGroup.cs" />
     <Compile Include="TS3Models\ChannelMoved.cs" />
+    <Compile Include="TS3Models\ChannelProperties.cs" />
     <Compile Include="TS3Models\Client.cs" />
     <Compile Include="TS3Models\ClientEnterView.cs" />
     <Compile Include="TS3Models\ClientLeftView.cs" />

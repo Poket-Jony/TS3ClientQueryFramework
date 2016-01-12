@@ -240,7 +240,7 @@ namespace TS3ClientQueryFramework
             {
                 string query = string.Format("clientmove {0} cid={1}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()), cid);
                 if(!string.IsNullOrEmpty(cpw))
-                    query += string.Format(" cpw={2}", TS3Helper.EscapeString(cpw));
+                    query += string.Format(" cpw={0}", TS3Helper.EscapeString(cpw));
                 ts3Connection.WriteLine(query);
                 return TS3Helper.ParseResult(ReadAll(), false);
             }
@@ -264,7 +264,7 @@ namespace TS3ClientQueryFramework
             {
                 string query = string.Format("clientkick {0} reasonid={1}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()), (int)reasonid);
                 if (!string.IsNullOrEmpty(reasonmsg))
-                    query += string.Format(" reasonmsg={2}", TS3Helper.EscapeString(reasonmsg));
+                    query += string.Format(" reasonmsg={0}", TS3Helper.EscapeString(reasonmsg));
                 ts3Connection.WriteLine(query);
                 return TS3Helper.ParseResult(ReadAll(), false);
             }
@@ -288,9 +288,62 @@ namespace TS3ClientQueryFramework
             {
                 string query = string.Format("banclient {0}", TS3Helper.GetSeperatedParamStringList("clid", clids.Cast<object>().ToList()));
                 if (time != null)
-                    query += string.Format(" time={1}", time);
+                    query += string.Format(" time={0}", time);
                 if (string.IsNullOrEmpty(banreason))
-                    query += string.Format(" banreason={2}", TS3Helper.EscapeString(banreason));
+                    query += string.Format(" banreason={0}", TS3Helper.EscapeString(banreason));
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Create a new channel
+        /// </summary>
+        public TS3Models.Result ChannelCreate(string channelName, Dictionary<TS3Models.ChannelProperties, object> channelProperties = null)
+        {
+            if (IsConnected())
+            {
+                string query = string.Format("channelcreate channel_name={0}", TS3Helper.EscapeString(channelName));
+                if (channelProperties != null)
+                {
+                    foreach (KeyValuePair<TS3Models.ChannelProperties, object> prop in channelProperties)
+                    {
+                        query += string.Format(" {0}={1}", prop.Key, TS3Helper.EscapeString(prop.Value.ToString()));
+                    }
+                }
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Delete a channel
+        /// </summary>
+        public TS3Models.Result ChannelDelete(int cid, bool force = false)
+        {
+            if (IsConnected())
+            {
+                string query = string.Format("channeldelete cid={0} force={1}", cid, Convert.ToInt32(force));
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Modify channel properties
+        /// </summary>
+        public TS3Models.Result ChannelEdit(int cid, Dictionary<TS3Models.ChannelProperties, object> channelProperties)
+        {
+            if (IsConnected())
+            {
+                string query = string.Format("channeledit cid={0}", cid);
+                foreach (KeyValuePair<TS3Models.ChannelProperties, object> prop in channelProperties)
+                {
+                    query += string.Format(" {0}={1}", prop.Key, TS3Helper.EscapeString(prop.Value.ToString()));
+                }
                 ts3Connection.WriteLine(query);
                 return TS3Helper.ParseResult(ReadAll(), false);
             }
