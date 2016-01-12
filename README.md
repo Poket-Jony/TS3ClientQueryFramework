@@ -55,6 +55,9 @@ Console.WriteLine(currentClient.ClId);
 - ClientMove()
 - ClientKick()
 - BanClient()
+- ChannelCreate()
+- ChannelDelete()
+- ChannelEdit()
 - ClientNotifyRegister()
 - ClientNotifyUnregister()
 - ...
