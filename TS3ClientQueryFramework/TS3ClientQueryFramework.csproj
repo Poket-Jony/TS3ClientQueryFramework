@@ -56,6 +56,7 @@
     <Compile Include="TS3Models\ClientLeftView.cs" />
     <Compile Include="TS3Models\ClientMoved.cs" />
     <Compile Include="TS3Models\ClientPoke.cs" />
+    <Compile Include="TS3Models\ClientProperties.cs" />
     <Compile Include="TS3Models\Codec.cs" />
     <Compile Include="TS3Models\CodecEncryptionMode.cs" />
     <Compile Include="TS3Models\HostBannerMode.cs" />

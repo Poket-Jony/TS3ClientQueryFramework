@@ -298,6 +298,24 @@ namespace TS3ClientQueryFramework
         }
 
         /// <summary>
+        /// Update client infos
+        /// </summary>
+        public TS3Models.Result ClientUpdate(Dictionary<TS3Models.ClientProperties, object> clientProperties)
+        {
+            if (IsConnected())
+            {
+                string query = "clientupdate";
+                foreach (KeyValuePair<TS3Models.ClientProperties, object> prop in clientProperties)
+                {
+                    query += string.Format(" {0}={1}", prop.Key, TS3Helper.EscapeString(prop.Value.ToString()));
+                }
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Create a new channel
         /// </summary>
         public TS3Models.Result ChannelCreate(string channelName, Dictionary<TS3Models.ChannelProperties, object> channelProperties = null)
