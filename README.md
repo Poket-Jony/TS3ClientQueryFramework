@@ -50,6 +50,7 @@ Console.WriteLine(currentClient.ClientNickname);
 - GetClientList()
 - GetChannelList()
 - Use()
+- ServerConnectionHandlerList()
 - SendTextMessage()
 - ClientPoke()
 - ClientMove()
