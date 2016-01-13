@@ -64,6 +64,7 @@ Console.WriteLine(currentClient.ClientNickname);
 - ChannelEdit()
 - ChannelMove()
 - ChannelVariable()
+- ServerVariable()
 - ClientNotifyRegister()
 - ClientNotifyUnregister()
 - ...
