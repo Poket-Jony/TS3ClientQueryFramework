@@ -38,10 +38,10 @@ if(ts3Client.Connect())
 }
 ```
 
-**Get my current client id**
+**Get my current client nickname**
 ```C#
-TS3Models.Client currentClient = ts3Client.GetWhoami();
-Console.WriteLine(currentClient.ClId);
+TS3Models.Client currentClient = ts3Client.GetMyClient();
+Console.WriteLine(currentClient.ClientNickname);
 ```
 
 ##Methods
@@ -55,9 +55,15 @@ Console.WriteLine(currentClient.ClId);
 - ClientMove()
 - ClientKick()
 - BanClient()
+- ClientUpdate()
+- ClientVariable()
+- GetMyClient()
+- GetAnyClient()
 - ChannelCreate()
 - ChannelDelete()
 - ChannelEdit()
+- ChannelMove()
+- ChannelVariable()
 - ClientNotifyRegister()
 - ClientNotifyUnregister()
 - ...
