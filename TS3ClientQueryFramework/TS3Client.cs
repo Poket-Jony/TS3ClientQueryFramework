@@ -187,6 +187,29 @@ namespace TS3ClientQueryFramework
         }
 
         /// <summary>
+        /// List all client tabs
+        /// </summary>
+        public List<int> ServerConnectionHandlerList()
+        {
+            if (IsConnected())
+            {
+                string query = "serverconnectionhandlerlist";
+                ts3Connection.WriteLine(query);
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
+                if (result != null && result.ErrorId == 0)
+                {
+                    List<int> handlers = new List<int>();
+                    foreach (Dictionary<string, string> res in result.ResultsList)
+                    {
+                        handlers.Add(Convert.ToInt32(result.GetResultByList(res, "schandlerid")));
+                    }
+                    return handlers;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Sends a text message to a client, channel, server
         /// </summary>
         public TS3Models.Result SendTextMessage(TS3Models.TextMessageTargetMode targetmode, int target, string msg, bool withoutResponse = false)
@@ -340,12 +363,15 @@ namespace TS3ClientQueryFramework
                 query = query.Remove(query.Length - 1);
                 ts3Connection.WriteLine(query);
                 TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
-                List<TS3Models.Client> clients = new List<TS3Models.Client>();
-                foreach (Dictionary<string, string> res in result.ResultsList)
+                if (result != null && result.ErrorId == 0)
                 {
-                    clients.Add(new TS3Models.Client().FillWithResult(result, res));
+                    List<TS3Models.Client> clients = new List<TS3Models.Client>();
+                    foreach (Dictionary<string, string> res in result.ResultsList)
+                    {
+                        clients.Add(new TS3Models.Client().FillWithResult(result, res));
+                    }
+                    return clients;
                 }
-                return clients;
             }
             return null;
         }
@@ -511,12 +537,15 @@ namespace TS3ClientQueryFramework
                 query = query.Remove(query.Length - 1);
                 ts3Connection.WriteLine(query);
                 TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
-                List<TS3Models.Channel> channels = new List<TS3Models.Channel>();
-                foreach (Dictionary<string, string> res in result.ResultsList)
+                if (result != null && result.ErrorId == 0)
                 {
-                    channels.Add(new TS3Models.Channel().FillWithResult(result, res));
+                    List<TS3Models.Channel> channels = new List<TS3Models.Channel>();
+                    foreach (Dictionary<string, string> res in result.ResultsList)
+                    {
+                        channels.Add(new TS3Models.Channel().FillWithResult(result, res));
+                    }
+                    return channels;
                 }
-                return channels;
             }
             return null;
         }
@@ -549,12 +578,15 @@ namespace TS3ClientQueryFramework
                 }
                 ts3Connection.WriteLine(query);
                 TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
-                List<TS3Models.VirtualServer> server = new List<TS3Models.VirtualServer>();
-                foreach (Dictionary<string, string> res in result.ResultsList)
+                if (result != null && result.ErrorId == 0)
                 {
-                    server.Add(new TS3Models.VirtualServer().FillWithResult(result, res));
+                    List<TS3Models.VirtualServer> server = new List<TS3Models.VirtualServer>();
+                    foreach (Dictionary<string, string> res in result.ResultsList)
+                    {
+                        server.Add(new TS3Models.VirtualServer().FillWithResult(result, res));
+                    }
+                    return server;
                 }
-                return server;
             }
             return null;
         }
