@@ -10,7 +10,18 @@ namespace TS3ClientQueryFramework.TS3Models
     {
         public int ScHandlerId { get; set; }
         public TextMessageTargetMode TargetMode { get; set; }
-        public string Msg { get; set; }
+        private string msg = null;
+        public string Msg
+        {
+            get
+            {
+                return msg;
+            }
+            set
+            {
+                msg = TS3Helper.UnescapeString(value);
+            }
+        }
         public int Target { get; set; }
         public Client Invoker { get; set; }
         public Result Result { get; set; }

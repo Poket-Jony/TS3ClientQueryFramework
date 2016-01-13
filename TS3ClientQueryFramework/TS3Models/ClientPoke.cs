@@ -9,7 +9,18 @@ namespace TS3ClientQueryFramework.TS3Models
     public class ClientPoke
     {
         public int ScHandlerId { get; set; }
-        public string Msg { get; set; }
+        private string msg = null;
+        public string Msg
+        {
+            get
+            {
+                return msg;
+            }
+            set
+            {
+                msg = TS3Helper.UnescapeString(value);
+            }
+        }
         public Client Invoker { get; set; }
         public Result Result { get; set; }
 
