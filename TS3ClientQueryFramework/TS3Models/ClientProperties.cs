@@ -49,7 +49,7 @@
         client_country,
         client_channel_group_inherited_channel_id,
         client_badges,
-        client_base64HashClientUID,
+        client_base64HashClientUID/*,
         connection_filetransfer_bandwidth_sent,
         connection_filetransfer_bandwidth_received,
         connection_packets_sent_total,
@@ -62,6 +62,6 @@
         connection_bandwidth_received_last_minute_total,
         connection_connected_time,
         connection_client_ip,
-        client_flag_is_talking
+        client_flag_is_talking*/
     };
 }

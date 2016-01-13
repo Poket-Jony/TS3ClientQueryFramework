@@ -196,11 +196,11 @@ namespace TS3ClientQueryFramework
                 ts3Connection.WriteLine(string.Format("sendtextmessage targetmode={0} target={1} msg={2}", (int)targetmode, target, TS3Helper.EscapeString(msg)));
                 if(!withoutResponse)
                     return TS3Helper.ParseResult(ReadAll(), false);
-                return null;
             }
             return null;
         }
 
+        #region Client
         /// <summary>
         /// Sends a poke message to a client
         /// </summary>
@@ -307,6 +307,106 @@ namespace TS3ClientQueryFramework
         }
 
         /// <summary>
+        /// Get client variables
+        /// Key: clid, Value: list of TS3Models.ClientProperties
+        /// </summary>
+        public List<TS3Models.Client> ClientVariable(Dictionary<int, List<TS3Models.ClientProperties>> clientVars)
+        {
+            if (IsConnected())
+            {
+                string query = "clientvariable ";
+                foreach (KeyValuePair<int, List<TS3Models.ClientProperties>> cvar in clientVars)
+                {
+                    query += string.Format("clid={0}", cvar.Key);
+                    List<TS3Models.ClientProperties> clientProps = cvar.Value;
+                    if (clientProps == null || clientProps.Count == 0)
+                    {
+                        clientProps = new List<TS3Models.ClientProperties>();
+                        foreach (TS3Models.ClientProperties prop in Enum.GetValues(typeof(TS3Models.ClientProperties))) //loop enum
+                        {
+                            if (prop != TS3Models.ClientProperties.pid &&
+                                prop != TS3Models.ClientProperties.client_base64HashClientUID)
+                            {
+                                clientProps.Add(prop);
+                            }
+                        }
+                    }
+                    foreach (TS3Models.ClientProperties prop in clientProps)
+                    {
+                        query += string.Format(" {0}", prop);
+                    }
+                    query += "|";
+                }
+                query = query.Remove(query.Length - 1);
+                ts3Connection.WriteLine(query);
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
+                List<TS3Models.Client> clients = new List<TS3Models.Client>();
+                foreach (Dictionary<string, string> res in result.ResultsList)
+                {
+                    clients.Add(new TS3Models.Client().FillWithResult(result, res));
+                }
+                return clients;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get my client
+        /// </summary>
+        public TS3Models.Client GetMyClient()
+        {
+            if (IsConnected())
+            {
+                TS3Models.Client client = GetWhoami();
+                Dictionary<int, List<TS3Models.ClientProperties>> clientVars = new Dictionary<int, List<TS3Models.ClientProperties>>();
+                clientVars.Add(client.ClId, null);
+                List<TS3Models.Client> clients = ClientVariable(clientVars);
+                if (clients != null && clients.Count != 0)
+                {
+                    Dictionary<int, List<TS3Models.ChannelProperties>> channelVars = new Dictionary<int, List<TS3Models.ChannelProperties>>();
+                    channelVars.Add(client.Channel.CId, null);
+                    List<TS3Models.Channel> channels = ChannelVariable(channelVars);
+                    if (channels != null && channels.Count != 0)
+                    {
+                        client = clients.First();
+                        client.Channel = channels.First();
+                        return client;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get any client by clid
+        /// </summary>
+        public TS3Models.Client GetAnyClient(int clid)
+        {
+            if (IsConnected())
+            {
+                List<TS3Models.Client> allClients = GetClientList();
+                Dictionary<int, List<TS3Models.ClientProperties>> clientVars = new Dictionary<int, List<TS3Models.ClientProperties>>();
+                clientVars.Add(clid, null);
+                List<TS3Models.Client> clients = ClientVariable(clientVars);
+                if (clients != null && clients.Count != 0 && allClients != null && allClients.Count != 0 && allClients.Exists(s => s.ClId == clid))
+                {
+                    Dictionary<int, List<TS3Models.ChannelProperties>> channelVars = new Dictionary<int, List<TS3Models.ChannelProperties>>();
+                    channelVars.Add(allClients.Find(s => s.ClId == clid).Channel.CId, null);
+                    List<TS3Models.Channel> channels = ChannelVariable(channelVars);
+                    if (channels != null && channels.Count != 0)
+                    {
+                        TS3Models.Client client = clients.First();
+                        client.Channel = channels.First();
+                        return client;
+                    }
+                }
+            }
+            return null;
+        }
+        #endregion
+        
+        #region Channel
+        /// <summary>
         /// Create a new channel
         /// </summary>
         public TS3Models.Result ChannelCreate(string channelName, Dictionary<TS3Models.ChannelProperties, object> channelProperties = null)
@@ -375,7 +475,7 @@ namespace TS3ClientQueryFramework
 
         /// <summary>
         /// Get channel variables
-        /// Dictionary<cid, List<TS3Models.ChannelProperties>>
+        /// Key: cid, Value: list of TS3Models.ChannelProperties
         /// </summary>
         public List<TS3Models.Channel> ChannelVariable(Dictionary<int, List<TS3Models.ChannelProperties>> channelVars)
         {
@@ -385,7 +485,24 @@ namespace TS3ClientQueryFramework
                 foreach (KeyValuePair<int, List<TS3Models.ChannelProperties>> cvar in channelVars)
                 {
                     query += string.Format("cid={0}", cvar.Key);
-                    foreach (TS3Models.ChannelProperties prop in cvar.Value)
+                    List<TS3Models.ChannelProperties> channelProps = cvar.Value;
+                    if (channelProps == null || channelProps.Count == 0)
+                    {
+                        channelProps = new List<TS3Models.ChannelProperties>();
+                        foreach (TS3Models.ChannelProperties prop in Enum.GetValues(typeof(TS3Models.ChannelProperties))) //loop enum
+                        {
+                            if (prop != TS3Models.ChannelProperties.cpid &&
+                                prop != TS3Models.ChannelProperties.channel_flag_temporary &&
+                                prop != TS3Models.ChannelProperties.seconds_empty &&
+                                prop != TS3Models.ChannelProperties.total_clients &&
+                                prop != TS3Models.ChannelProperties.total_clients_family &&
+                                prop != TS3Models.ChannelProperties.channel_needed_subscribe_power)
+                            {
+                                channelProps.Add(prop);
+                            }
+                        }
+                    }
+                    foreach (TS3Models.ChannelProperties prop in channelProps)
                     {
                         query += string.Format(" {0}", prop);
                     }
@@ -403,7 +520,9 @@ namespace TS3ClientQueryFramework
             }
             return null;
         }
+        #endregion
 
+        #region Notification
         /// <summary>
         /// Register client notification
         /// </summary>
@@ -435,5 +554,6 @@ namespace TS3ClientQueryFramework
             }
             return null;
         }
+        #endregion
     }
 }

@@ -30,6 +30,10 @@ namespace TS3ClientQueryDemo
                 ts3Client.ClientNotifyRegister(ts3Client.CurrentHandlerId, Notifications.notifyclientpoke);
                 ts3Client.Notifier.OnClientPoke += Notifier_OnClientPoke;
 
+                Client myClient = ts3Client.GetMyClient();
+                lblNicknameText.Text = myClient.ClientNickname;
+                lblChannelNameText.Text = myClient.Channel.ChannelName;
+
                 txtBoxLog.Text = ts3Client.Log;
             }
         }

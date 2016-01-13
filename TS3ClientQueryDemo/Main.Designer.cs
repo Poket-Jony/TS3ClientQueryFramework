@@ -33,7 +33,13 @@
             this.comboBoxClients = new System.Windows.Forms.ComboBox();
             this.btnSendPoke = new System.Windows.Forms.Button();
             this.txtBoxLog = new System.Windows.Forms.TextBox();
+            this.pnlStats = new System.Windows.Forms.Panel();
+            this.lblNickname = new System.Windows.Forms.Label();
+            this.lblNicknameText = new System.Windows.Forms.Label();
+            this.lblChannelName = new System.Windows.Forms.Label();
+            this.lblChannelNameText = new System.Windows.Forms.Label();
             this.pnlPoke.SuspendLayout();
+            this.pnlStats.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtBoxMessage
@@ -88,19 +94,70 @@
             this.txtBoxLog.Size = new System.Drawing.Size(354, 292);
             this.txtBoxLog.TabIndex = 2;
             // 
+            // pnlStats
+            // 
+            this.pnlStats.Controls.Add(this.lblChannelNameText);
+            this.pnlStats.Controls.Add(this.lblChannelName);
+            this.pnlStats.Controls.Add(this.lblNicknameText);
+            this.pnlStats.Controls.Add(this.lblNickname);
+            this.pnlStats.Location = new System.Drawing.Point(12, 310);
+            this.pnlStats.Name = "pnlStats";
+            this.pnlStats.Size = new System.Drawing.Size(687, 51);
+            this.pnlStats.TabIndex = 3;
+            // 
+            // lblNickname
+            // 
+            this.lblNickname.AutoSize = true;
+            this.lblNickname.Location = new System.Drawing.Point(13, 11);
+            this.lblNickname.Name = "lblNickname";
+            this.lblNickname.Size = new System.Drawing.Size(58, 13);
+            this.lblNickname.TabIndex = 0;
+            this.lblNickname.Text = "Nickname:";
+            // 
+            // lblNicknameText
+            // 
+            this.lblNicknameText.AutoSize = true;
+            this.lblNicknameText.Location = new System.Drawing.Point(77, 11);
+            this.lblNicknameText.Name = "lblNicknameText";
+            this.lblNicknameText.Size = new System.Drawing.Size(27, 13);
+            this.lblNicknameText.TabIndex = 1;
+            this.lblNicknameText.Text = "N/A";
+            // 
+            // lblChannelName
+            // 
+            this.lblChannelName.AutoSize = true;
+            this.lblChannelName.Location = new System.Drawing.Point(330, 11);
+            this.lblChannelName.Name = "lblChannelName";
+            this.lblChannelName.Size = new System.Drawing.Size(77, 13);
+            this.lblChannelName.TabIndex = 2;
+            this.lblChannelName.Text = "ChannelName:";
+            // 
+            // lblChannelNameText
+            // 
+            this.lblChannelNameText.AutoSize = true;
+            this.lblChannelNameText.Location = new System.Drawing.Point(413, 11);
+            this.lblChannelNameText.Name = "lblChannelNameText";
+            this.lblChannelNameText.Size = new System.Drawing.Size(27, 13);
+            this.lblChannelNameText.TabIndex = 3;
+            this.lblChannelNameText.Text = "N/A";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 316);
+            this.ClientSize = new System.Drawing.Size(711, 373);
+            this.Controls.Add(this.pnlStats);
             this.Controls.Add(this.txtBoxLog);
             this.Controls.Add(this.pnlPoke);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "TS3ClientQueryDemo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.pnlPoke.ResumeLayout(false);
             this.pnlPoke.PerformLayout();
+            this.pnlStats.ResumeLayout(false);
+            this.pnlStats.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,6 +170,11 @@
         private System.Windows.Forms.ComboBox comboBoxClients;
         private System.Windows.Forms.Button btnSendPoke;
         private System.Windows.Forms.TextBox txtBoxLog;
+        private System.Windows.Forms.Panel pnlStats;
+        private System.Windows.Forms.Label lblChannelNameText;
+        private System.Windows.Forms.Label lblChannelName;
+        private System.Windows.Forms.Label lblNicknameText;
+        private System.Windows.Forms.Label lblNickname;
     }
 }
 
