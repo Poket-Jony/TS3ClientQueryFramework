@@ -269,30 +269,7 @@ namespace TS3ClientQueryFramework
                                 ClientNickname = result.GetFirstResult("invokername"),
                                 ClientUniqueIdentifier = result.GetFirstResult("invokeruid"),
                             },
-                            VirtualServer = new TS3Models.VirtualServer()
-                            {
-                                VirtualServerName = result.GetFirstResult("virtualserver_name"),
-                                VirtualServerCodecEncryptionMode = (TS3Models.CodecEncryptionMode)Convert.ToInt32(result.GetFirstResult("virtualserver_codec_encryption_mode")),
-                                VirtualServerDefaultServerGroup = new TS3Models.ServerGroup()
-                                {
-                                    SgId = Convert.ToInt32(result.GetFirstResult("virtualserver_default_server_group"))
-                                },
-                                VirtualServerDefaultChannelGroup = new TS3Models.ChannelGroup()
-                                {
-                                    CgId = Convert.ToInt32(result.GetFirstResult("virtualserver_default_channel_group"))
-                                },
-                                VirtualServerHostbannerUrl = result.GetFirstResult("virtualserver_hostbanner_url"),
-                                VirtualServerHostbannerGfxUrl = result.GetFirstResult("virtualserver_hostbanner_gfx_url"),
-                                VirtualServerHostbannerGfxInterval = Convert.ToInt32(result.GetFirstResult("virtualserver_hostbanner_gfx_interval")),
-                                VirtualServerPrioritySpeakerDimmModificator = Convert.ToInt32(result.GetFirstResult("virtualserver_priority_speaker_dimm_modificator")),
-                                VirtualServerHostbuttonTooltip = result.GetFirstResult("virtualserver_hostbutton_tooltip"),
-                                VirtualServerHostbuttonUrl = result.GetFirstResult("virtualserver_hostbutton_url"),
-                                VirtualServerHostbuttonGfxUrl = result.GetFirstResult("virtualserver_hostbutton_gfx_url"),
-                                VirtualServerNamePhonetic = result.GetFirstResult("virtualserver_name_phonetic"),
-                                VirtualServerIconId = Convert.ToInt32(result.GetFirstResult("virtualserver_icon_id")),
-                                VirtualServerHostbannerMode = (TS3Models.HostBannerMode)Convert.ToInt32(result.GetFirstResult("virtualserver_hostbanner_mode")),
-                                VirtualServerChannelTempDeleteDelayDefault = Convert.ToInt32(result.GetFirstResult("virtualserver_channel_temp_delete_delay_default"))
-                            }
+                            VirtualServer = new TS3Models.VirtualServer().FillWithResult(result)
                         });
                     break;
                 #endregion

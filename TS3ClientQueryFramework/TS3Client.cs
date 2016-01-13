@@ -522,6 +522,44 @@ namespace TS3ClientQueryFramework
         }
         #endregion
 
+        #region Server
+        /// <summary>
+        /// Get server variables
+        /// </summary>
+        public List<TS3Models.VirtualServer> ServerVariable(List<TS3Models.VirtualServerProperties> serverProperties)
+        {
+            if (IsConnected())
+            {
+                string query = "servervariable ";
+                List<TS3Models.VirtualServerProperties> serverProps = serverProperties;
+                if (serverProps == null || serverProps.Count == 0)
+                {
+                    serverProps = new List<TS3Models.VirtualServerProperties>();
+                    foreach (TS3Models.VirtualServerProperties prop in Enum.GetValues(typeof(TS3Models.VirtualServerProperties))) //loop enum
+                    {
+                        if (prop != TS3Models.VirtualServerProperties.virtualserver_status)
+                        {
+                            serverProps.Add(prop);
+                        }
+                    }
+                }
+                foreach (TS3Models.VirtualServerProperties prop in serverProps)
+                {
+                    query += string.Format(" {0}", prop);
+                }
+                ts3Connection.WriteLine(query);
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
+                List<TS3Models.VirtualServer> server = new List<TS3Models.VirtualServer>();
+                foreach (Dictionary<string, string> res in result.ResultsList)
+                {
+                    server.Add(new TS3Models.VirtualServer().FillWithResult(result, res));
+                }
+                return server;
+            }
+            return null;
+        }
+        #endregion
+
         #region Notification
         /// <summary>
         /// Register client notification
