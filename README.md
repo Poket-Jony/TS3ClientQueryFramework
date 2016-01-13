@@ -1,6 +1,8 @@
 # TS3ClientQueryFramework
 Teamspeak 3 framework for C#
 
+*Version: 0.2*
+
 ##German
 Dieses Framework ist eine sehr einfache Möglichkeit eine externe Anwendung zu schreiben, welche sich wie ein TS3-Client-Plugin verhält.
 
