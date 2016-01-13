@@ -114,5 +114,110 @@ namespace TS3ClientQueryFramework.TS3Models
         {
             return ClientNickname;
         }
+
+        public Client FillWithResult(Result result)
+        {
+            return FillWithResult(result, result.ResultsList.First());
+        }
+
+        public Client FillWithResult(Result result, Dictionary<string, string> list)
+        {
+            if (result.GetResultByList(list, ClientProperties.client_servergroups.ToString()) != null)
+            {
+                List<TS3Models.ServerGroup> serverGroups = new List<TS3Models.ServerGroup>();
+                List<string> sepList = TS3Helper.GetSeperatedList(result.GetResultByList(list, ClientProperties.client_servergroups.ToString()));
+                if (sepList != null && sepList.Count != 0)
+                {
+                    foreach (string groupId in sepList)
+                    {
+                        serverGroups.Add(new TS3Models.ServerGroup()
+                        {
+                            SgId = Convert.ToInt32(groupId)
+                        });
+                    }
+                }
+                this.ClientServerGroups = serverGroups;
+            }
+            if (result.GetResultByList(list, ClientProperties.client_badges.ToString()) != null)
+            {
+                Dictionary<string, string> paramList = TS3Helper.GetSeperatedParamList(result.GetResultByList(list, ClientProperties.client_badges.ToString()));
+                List<TS3Models.BadgeTypes> badges = new List<TS3Models.BadgeTypes>();
+                if (paramList != null && paramList.Count != 0)
+                {
+                    foreach (KeyValuePair<string, string> param in paramList)
+                    {
+                        TS3Models.BadgeTypes badge;
+                        if (Enum.TryParse<TS3Models.BadgeTypes>(param.Key, out badge))
+                        {
+                            if (Convert.ToBoolean(Convert.ToInt32(param.Value)))
+                                badges.Add(badge);
+                        }
+                    }
+                }
+                this.ClientBadges = badges;
+            }
+            if (result.GetResultByList(list, ClientProperties.clid.ToString()) != null)
+                this.ClId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.clid.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_unique_identifier.ToString()) != null)
+                this.ClientUniqueIdentifier = result.GetResultByList(list, ClientProperties.client_unique_identifier.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_nickname.ToString()) != null)
+                this.ClientNickname = result.GetResultByList(list, ClientProperties.client_nickname.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_input_muted.ToString()) != null)
+                this.ClientInputMuted = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_input_muted.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_output_muted.ToString()) != null)
+                this.ClientOutputMuted = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_output_muted.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_outputonly_muted.ToString()) != null)
+                this.ClientOutputOnlyMuted = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_outputonly_muted.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_input_hardware.ToString()) != null)
+                this.ClientInputHardware = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_input_hardware.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_output_hardware.ToString()) != null)
+                this.ClientOutputHardware = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_output_hardware.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_meta_data.ToString()) != null)
+                this.ClientMetaData = result.GetResultByList(list, ClientProperties.client_meta_data.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_is_recording.ToString()) != null)
+                this.ClientIsRecording = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_is_recording.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_database_id.ToString()) != null)
+                this.ClientDatabaseId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_database_id.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_channel_group_id.ToString()) != null)
+                this.ClientChannelGroup = new TS3Models.ChannelGroup()
+                {
+                    CgId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_channel_group_id.ToString()))
+                };
+            if (result.GetResultByList(list, ClientProperties.client_away.ToString()) != null)
+                this.ClientAway = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_away.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_away_message.ToString()) != null)
+                this.ClientAwayMessage = result.GetResultByList(list, ClientProperties.client_away_message.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_type.ToString()) != null)
+                this.ClientType = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_type.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_flag_avatar.ToString()) != null)
+                this.ClientFlagAvatar = result.GetResultByList(list, ClientProperties.client_flag_avatar.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_talk_power.ToString()) != null)
+                this.ClientTalkPower = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_talk_power.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_talk_request.ToString()) != null)
+                this.ClientTalkRequest = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_talk_request.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_talk_request_msg.ToString()) != null)
+                this.ClientTalkRequestMsg = result.GetResultByList(list, ClientProperties.client_talk_request_msg.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_description.ToString()) != null)
+                this.ClientDescription = result.GetResultByList(list, ClientProperties.client_description.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_is_talker.ToString()) != null)
+                this.ClientIsTalker = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_is_talker.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_is_priority_speaker.ToString()) != null)
+                this.ClientIsPrioritySpeaker = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_is_priority_speaker.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_unread_messages.ToString()) != null)
+                this.ClientUnreadMessages = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_unread_messages.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_nickname_phonetic.ToString()) != null)
+                this.ClientNicknamePhonetic = result.GetResultByList(list, ClientProperties.client_nickname_phonetic.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_needed_serverquery_view_power.ToString()) != null)
+                this.ClientNeededServerqueryViewPower = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_needed_serverquery_view_power.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_icon_id.ToString()) != null)
+                this.ClientIconId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_icon_id.ToString()));
+            if (result.GetResultByList(list, ClientProperties.client_is_channel_commander.ToString()) != null)
+                this.ClientIsChannelCommander = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_is_channel_commander.ToString())));
+            if (result.GetResultByList(list, ClientProperties.client_country.ToString()) != null)
+                this.ClientCountry = result.GetResultByList(list, ClientProperties.client_country.ToString());
+            if (result.GetResultByList(list, ClientProperties.client_channel_group_inherited_channel_id.ToString()) != null)
+                this.ClientChannelGroupInheritedChannelId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_channel_group_inherited_channel_id.ToString()));
+            return this;
+        }
     }
 }

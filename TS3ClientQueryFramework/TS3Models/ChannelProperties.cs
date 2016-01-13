@@ -2,6 +2,8 @@
 {
     public enum ChannelProperties
     {
+        cid,
+        cpid,
         channel_name,
         channel_topic,
         channel_description,
@@ -18,11 +20,21 @@
         channel_flag_password,
         channel_codec_latency_factor,
         channel_codec_is_unencrypted,
+        channel_security_salt,
         channel_delete_delay,
         channel_flag_maxclients_unlimited,
         channel_flag_maxfamilyclients_unlimited,
         channel_flag_maxfamilyclients_inherited,
+        channel_filepath,
         channel_needed_talk_power,
-        channel_name_phonetic
+        channel_forced_silence,
+        channel_name_phonetic,
+        channel_icon_id,
+        channel_flag_are_subscribed,
+        channel_flag_private,
+        seconds_empty,
+        total_clients,
+        total_clients_family,
+        channel_needed_subscribe_power
     };
 }

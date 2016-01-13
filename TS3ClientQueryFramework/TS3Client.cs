@@ -160,16 +160,7 @@ namespace TS3ClientQueryFramework
                 List<TS3Models.Channel> channels = new List<TS3Models.Channel>();
                 foreach (Dictionary<string, string> res in result.ResultsList)
                 {
-                    channels.Add(new TS3Models.Channel()
-                    {
-                        Result = result,
-                        CId = Convert.ToInt32(result.GetResultByList(res, "cid")),
-                        PId = Convert.ToInt32(result.GetResultByList(res, "pid")),
-                        ChannelOrder = Convert.ToInt32(result.GetResultByList(res, "channel_order")),
-                        ChannelName = result.GetResultByList(res, "channel_name"),
-                        ChannelFlagAreSubscribed = Convert.ToInt32(result.GetResultByList(res, "channel_flag_are_subscribed")),
-                        TotalClients = Convert.ToInt32(result.GetResultByList(res, "total_clients")),
-                    });
+                    channels.Add(new TS3Models.Channel().FillWithResult(result, res));
                 }
                 return channels;
             }
@@ -364,6 +355,51 @@ namespace TS3ClientQueryFramework
                 }
                 ts3Connection.WriteLine(query);
                 return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Move channel
+        /// </summary>
+        public TS3Models.Result ChannelMove(int cid, int cpid, int order = 0)
+        {
+            if (IsConnected())
+            {
+                string query = string.Format("channelmove cid={0} cpid={1} order={2}", cid, cpid, order);
+                ts3Connection.WriteLine(query);
+                return TS3Helper.ParseResult(ReadAll(), false);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Get channel variables
+        /// Dictionary<cid, List<TS3Models.ChannelProperties>>
+        /// </summary>
+        public List<TS3Models.Channel> ChannelVariable(Dictionary<int, List<TS3Models.ChannelProperties>> channelVars)
+        {
+            if (IsConnected())
+            {
+                string query = "channelvariable ";
+                foreach (KeyValuePair<int, List<TS3Models.ChannelProperties>> cvar in channelVars)
+                {
+                    query += string.Format("cid={0}", cvar.Key);
+                    foreach (TS3Models.ChannelProperties prop in cvar.Value)
+                    {
+                        query += string.Format(" {0}", prop);
+                    }
+                    query += "|";
+                }
+                query = query.Remove(query.Length - 1);
+                ts3Connection.WriteLine(query);
+                TS3Models.Result result = TS3Helper.ParseResult(ReadAll(), true);
+                List<TS3Models.Channel> channels = new List<TS3Models.Channel>();
+                foreach (Dictionary<string, string> res in result.ResultsList)
+                {
+                    channels.Add(new TS3Models.Channel().FillWithResult(result, res));
+                }
+                return channels;
             }
             return null;
         }
