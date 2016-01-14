@@ -104,7 +104,6 @@ namespace TS3ClientQueryFramework
                         OnTextMessage(new TS3Models.TextMessage()
                         {
                             Result = result,
-                            ScHandlerId = Convert.ToInt32(result.GetFirstResult("schandlerid")),
                             TargetMode = (TS3Models.TextMessageTargetMode)Convert.ToInt32(result.GetFirstResult("targetmode")),
                             Msg = result.GetFirstResult("msg"),
                             Target = Convert.ToInt32(result.GetFirstResult("target")),
@@ -121,7 +120,6 @@ namespace TS3ClientQueryFramework
                         OnClientPoke(new TS3Models.ClientPoke()
                         {
                             Result = result,
-                            ScHandlerId = Convert.ToInt32(result.GetFirstResult("schandlerid")),
                             Msg = result.GetFirstResult("msg"),
                             Invoker = new TS3Models.Client()
                             {

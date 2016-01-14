@@ -8,7 +8,6 @@ namespace TS3ClientQueryFramework.TS3Models
 {
     public class TextMessage
     {
-        public int ScHandlerId { get; set; }
         public TextMessageTargetMode TargetMode { get; set; }
         private string msg = null;
         public string Msg

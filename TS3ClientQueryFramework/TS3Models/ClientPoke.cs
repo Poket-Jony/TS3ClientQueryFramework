@@ -8,7 +8,6 @@ namespace TS3ClientQueryFramework.TS3Models
 {
     public class ClientPoke
     {
-        public int ScHandlerId { get; set; }
         private string msg = null;
         public string Msg
         {
