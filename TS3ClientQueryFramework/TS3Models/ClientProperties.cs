@@ -63,5 +63,5 @@
         connection_connected_time,
         connection_client_ip,
         client_flag_is_talking*/
-    };
+    }
 }

@@ -36,5 +36,5 @@
         total_clients,
         total_clients_family,
         channel_needed_subscribe_power
-    };
+    }
 }

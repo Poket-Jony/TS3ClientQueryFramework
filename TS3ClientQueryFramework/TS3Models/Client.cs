@@ -101,7 +101,7 @@ namespace TS3ClientQueryFramework.TS3Models
             }
         }
         public int ClientNeededServerqueryViewPower { get; set; }
-        public int ClientIconId { get; set; }
+        public ulong ClientIconId { get; set; }
         public bool ClientIsChannelCommander { get; set; }
         public string ClientCountry { get; set; }
         public int ClientChannelGroupInheritedChannelId { get; set; }
@@ -210,7 +210,7 @@ namespace TS3ClientQueryFramework.TS3Models
             if (result.GetResultByList(list, ClientProperties.client_needed_serverquery_view_power.ToString()) != null)
                 this.ClientNeededServerqueryViewPower = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_needed_serverquery_view_power.ToString()));
             if (result.GetResultByList(list, ClientProperties.client_icon_id.ToString()) != null)
-                this.ClientIconId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_icon_id.ToString()));
+                this.ClientIconId = Convert.ToUInt64(result.GetResultByList(list, ClientProperties.client_icon_id.ToString()));
             if (result.GetResultByList(list, ClientProperties.client_is_channel_commander.ToString()) != null)
                 this.ClientIsChannelCommander = Convert.ToBoolean(Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_is_channel_commander.ToString())));
             if (result.GetResultByList(list, ClientProperties.client_country.ToString()) != null)
