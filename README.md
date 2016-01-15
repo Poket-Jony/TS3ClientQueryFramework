@@ -84,4 +84,5 @@ Console.WriteLine(currentClient.ClientNickname);
 - OnChannelCreated()
 - OnChannelDeleted()
 - OnServerEdited()
+- OnServerGroupList()
 - ...
