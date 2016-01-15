@@ -217,6 +217,7 @@ namespace TS3ClientQueryFramework.TS3Models
                 this.ClientCountry = result.GetResultByList(list, ClientProperties.client_country.ToString());
             if (result.GetResultByList(list, ClientProperties.client_channel_group_inherited_channel_id.ToString()) != null)
                 this.ClientChannelGroupInheritedChannelId = Convert.ToInt32(result.GetResultByList(list, ClientProperties.client_channel_group_inherited_channel_id.ToString()));
+            this.Result = result;
             return this;
         }
     }

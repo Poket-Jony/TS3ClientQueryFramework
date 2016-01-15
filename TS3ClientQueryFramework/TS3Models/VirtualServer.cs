@@ -415,6 +415,7 @@ namespace TS3ClientQueryFramework.TS3Models
                 this.VirtualServerChannelTempDeleteDelayDefault = Convert.ToInt32(result.GetResultByList(list, VirtualServerProperties.virtualserver_channel_temp_delete_delay_default.ToString()));
             if (result.GetResultByList(list, VirtualServerProperties.virtualserver_status.ToString()) != null)
                 this.VirtualServerStatus = result.GetResultByList(list, VirtualServerProperties.virtualserver_status.ToString());
+            this.Result = result;
             return this;
         }
     }

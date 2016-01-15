@@ -202,6 +202,7 @@ namespace TS3ClientQueryFramework.TS3Models
                 this.TotalClientsFamily = Convert.ToInt32(result.GetResultByList(list, ChannelProperties.total_clients_family.ToString()));
             if (result.GetResultByList(list, ChannelProperties.channel_needed_subscribe_power.ToString()) != null)
                 this.ChannelNeededSubscribePower = Convert.ToInt32(result.GetResultByList(list, ChannelProperties.channel_needed_subscribe_power.ToString()));
+            this.Result = result;
             return this;
         }
     }

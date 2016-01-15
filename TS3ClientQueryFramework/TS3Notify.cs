@@ -26,6 +26,7 @@ namespace TS3ClientQueryFramework
         #endregion
         #region Server
         public delegate void OnServerEditedHandler(TS3Models.ServerEdited serverEdited);
+        public delegate void OnServerGroupListHandler(List<TS3Models.ServerGroup> serverGroupList);
         #endregion
         #endregion
 
@@ -46,6 +47,7 @@ namespace TS3ClientQueryFramework
         #endregion
         #region Server
         public event OnServerEditedHandler OnServerEdited;
+        public event OnServerGroupListHandler OnServerGroupList;
         #endregion
         #endregion
 
@@ -269,6 +271,17 @@ namespace TS3ClientQueryFramework
                             },
                             VirtualServer = new TS3Models.VirtualServer().FillWithResult(result)
                         });
+                    break;
+                case TS3Models.Notifications.notifyservergrouplist:
+                    if (OnServerGroupList != null)
+                    {
+                        List<TS3Models.ServerGroup> serverGroups = new List<TS3Models.ServerGroup>();
+                        foreach (Dictionary<string, string> res in result.ResultsList)
+                        {
+                            serverGroups.Add(new TS3Models.ServerGroup().FillWithResult(result, res));
+                        }
+                        OnServerGroupList(serverGroups);
+                    }
                     break;
                 #endregion
             }

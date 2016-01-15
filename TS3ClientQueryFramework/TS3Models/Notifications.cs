@@ -15,6 +15,7 @@
         notifychanneldeleted,
         notifyclientmoved,
         notifytokenused,
-        notifytalkstatuschange
+        notifytalkstatuschange,
+        notifyservergrouplist
     };
 }

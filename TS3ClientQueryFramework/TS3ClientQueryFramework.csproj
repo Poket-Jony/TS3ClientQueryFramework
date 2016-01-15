@@ -69,6 +69,7 @@
     <Compile Include="TS3Models\Result.cs" />
     <Compile Include="TS3Models\ServerEdited.cs" />
     <Compile Include="TS3Models\ServerGroup.cs" />
+    <Compile Include="TS3Models\ServerGroupProperties.cs" />
     <Compile Include="TS3Models\TextMessage.cs" />
     <Compile Include="TS3Models\TextMessageTargetMode.cs" />
     <Compile Include="TS3Models\TokenType.cs" />
