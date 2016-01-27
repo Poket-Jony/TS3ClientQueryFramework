@@ -217,7 +217,9 @@ namespace TS3ClientQueryFramework
             if (IsConnected())
             {
                 ts3Connection.WriteLine(string.Format("sendtextmessage targetmode={0} target={1} msg={2}", (int)targetmode, target, TS3Helper.EscapeString(msg)));
-                if(!withoutResponse)
+                if(withoutResponse)
+                    ClearReadBuffer();
+                else
                     return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
@@ -227,12 +229,15 @@ namespace TS3ClientQueryFramework
         /// <summary>
         /// Sends a poke message to a client
         /// </summary>
-        public TS3Models.Result ClientPoke(int clid, string msg)
+        public TS3Models.Result ClientPoke(int clid, string msg, bool withoutResponse = false)
         {
             if (IsConnected())
             {
                 ts3Connection.WriteLine(string.Format("clientpoke clid={0} msg={1}", clid, TS3Helper.EscapeString(msg)));
-                return TS3Helper.ParseResult(ReadAll(), false);
+                if (withoutResponse)
+                    ClearReadBuffer();
+                else
+                    return TS3Helper.ParseResult(ReadAll(), false);
             }
             return null;
         }
