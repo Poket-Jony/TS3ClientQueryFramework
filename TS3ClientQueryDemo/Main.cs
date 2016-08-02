@@ -20,10 +20,11 @@ namespace TS3ClientQueryDemo
         {
             InitializeComponent();
             
-            if(ts3Client.Connect())
+            if(ts3Client.Connect() && ts3Client.IsConnected(true))
             {
                 if(ts3Client.CurrentHandlerId != 1)
                     ts3Client.Use(1);
+
                 pnlPoke.Enabled = comboBoxClients.Enabled = txtBoxMessage.Enabled = txtBoxLog.Enabled = btnSendPoke.Enabled = true;
                 comboBoxClients.DataSource = ts3Client.GetClientList();
 

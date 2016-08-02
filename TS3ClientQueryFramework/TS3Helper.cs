@@ -9,7 +9,7 @@ namespace TS3ClientQueryFramework
 {
     internal class TS3Helper
     {
-        private static Regex errorRegex = new Regex(@"error id=(\d) msg=(.+)");
+        private static Regex errorRegex = new Regex(@"error id=(\d+) msg=(.+)");
         private static Regex paramRegex = new Regex(@"(.+)=(.+)");
 
         internal static TS3Models.Result ParseResult(string resultString, bool isMany)
@@ -23,11 +23,12 @@ namespace TS3ClientQueryFramework
                 if (errorMatch.Success)
                 {
                     result.ErrorId = Convert.ToInt32(errorMatch.Groups[1].Value);
-                    result.ErrorMsg = errorMatch.Groups[2].Value;
+                    result.ErrorMsg = UnescapeString(errorMatch.Groups[2].Value);
                     resultString = errorRegex.Replace(resultString, "");
                 }
-
-                result.ResultsList = GetParamList(resultString, isMany);
+                
+                if(!string.IsNullOrEmpty(resultString))
+                    result.ResultsList = GetParamList(resultString, isMany);
                 return result;
             }
             return null;
@@ -35,6 +36,11 @@ namespace TS3ClientQueryFramework
 
         private static List<Dictionary<string, string>> GetParamList(string input, bool isMany, char paramSplitter = ' ')
         {
+            List<Dictionary<string, string>> resultsList = new List<Dictionary<string, string>>();
+
+            if (!string.IsNullOrEmpty(input))
+                return resultsList;
+
             string[] manyResults;
             if (isMany)
                 manyResults = input.Split('|');
@@ -45,7 +51,6 @@ namespace TS3ClientQueryFramework
                 manyResults = new string[] { input };
             }
 
-            List<Dictionary<string, string>> resultsList = new List<Dictionary<string, string>>();
             foreach (string mr in manyResults)
             {
                 Dictionary<string, string> resl = new Dictionary<string, string>();

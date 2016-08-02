@@ -49,7 +49,7 @@ namespace TS3ClientQueryFramework
             if (!IsConnected())
             {
                 ts3Connection = new TS3Connector(this, hostname, port);
-                if (ts3Connection.IsConnected())
+                if (IsConnected())
                 {
                     Notifier = new TS3Notify(this);
                     return true;
@@ -75,10 +75,18 @@ namespace TS3ClientQueryFramework
         /// <summary>
         /// Check that TS3 Client Query is connected
         /// </summary>
-        public bool IsConnected()
+        public bool IsConnected(bool deep = false)
         {
             if (ts3Connection != null && ts3Connection.IsConnected())
-                return true;
+            {
+                if (deep)
+                {
+                    if (GetWhoami().Result.ErrorId == 0)
+                        return true;
+                }
+                else
+                    return true;
+            }
             return false;
         }
 
